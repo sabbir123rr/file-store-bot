@@ -2,13 +2,27 @@
 # File Store + Rose All Features in One Bot
 # pip install python-telegram-bot==20.7
 
+import os
+import json
+from datetime import timedelta
 from telegram import Update, ChatPermissions, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, CallbackQueryHandler
-from datetime import timedelta
-import json, os
+from flask import Flask
+import threading
 
-BOT_TOKEN = "8887348980:AAG4mlMEWfGmUC_ryojgaJbA2QivxCMDN3Y"
-OWNER_ID = 6936733023  # তোমার ID
+# --- For Render Port Binding ---
+app = Flask(__name__)
+@app.route('/')
+def home():
+    return "Bot is Alive!"
+def run_flask():
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
+threading.Thread(target=run_flask, daemon=True).start()
+# --- End Flask ---
+
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "8887348980:AAG4m1MEWfGmUC_ryojgaJbA2Qivx")
+OWNER_ID = int(os.environ.get("ADMINS", "6936733023"))
 
 FORCE_CHANNELS = [
     {"name": "Join Channel 1", "url": "https://t.me/aimbot0999", "id": "@aimbot0999"},
